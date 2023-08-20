@@ -2,7 +2,7 @@ package com.kliachenko.gitvoyager.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class UsersItemDto(
+data class UserDto(
 
     @SerializedName("id")
     val id: Int,
