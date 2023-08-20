@@ -1,4 +1,4 @@
-package com.kliachenko.gitvoyager.ui.theme
+package com.kliachenko.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
