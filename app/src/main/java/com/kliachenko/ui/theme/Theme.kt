@@ -1,18 +1,18 @@
 package com.kliachenko.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.annotation.SuppressLint
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+@SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-    primary = Color.Green,
+    primary = Color.White,
     background = Color.LightGray,
-    onBackground = Color.DarkGray,
+    onBackground = Color.White,
     surface = Color.Blue,
-    onSurface = Color.Red,
+    onSurface = Color.DarkGray,
 )
 
     /* Other default colors to override
