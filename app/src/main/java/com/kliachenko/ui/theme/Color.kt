@@ -3,7 +3,7 @@ package com.kliachenko.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val Blue = Color(0xff4078c0)
-val Green = Color(0xff6cc644)
+val ModernGreen = Color(0xff6cc644)
 val Red = Color(0xffbd2c00)
 val Orange = Color(0xFFc9510c)
 val Violet = Color(0xFF6e5494)
