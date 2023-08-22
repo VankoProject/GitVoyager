@@ -1,34 +1,43 @@
 package com.kliachenko.gitvoyager.data.repository
 
+import androidx.paging.*
+import com.kliachenko.gitvoyager.data.database.UsersDatabase
 import com.kliachenko.gitvoyager.data.mapper.toUser
 import com.kliachenko.gitvoyager.data.network.ApiService
+import com.kliachenko.gitvoyager.data.network.UsersRemoteMediator
 import com.kliachenko.gitvoyager.domain.model.User
 import com.kliachenko.gitvoyager.domain.repository.UsersRepository
-import com.kliachenko.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class UserRepositoryImpl(
-    private val apiService: ApiService
+@OptIn(ExperimentalPagingApi::class)
+class UserRepositoryImpl @Inject constructor(
+    private val apiService: ApiService,
+    private val userDb: UsersDatabase
 ) : UsersRepository {
-    override fun getUsers(since: Int): Flow<Resource<List<User>>> = flow {
-        try {
-            val response = apiService.getUsers(since)
-            if(response.isSuccessful) {
-                val userDtoList = response.body()
-                if (userDtoList != null) {
-                    val users = userDtoList.map { it.toUser() }
-                    emit(Resource.Success(users))
-                } else {
-                    emit(Resource.Error("Empty response body"))
-                }
-            } else {
-                emit(Resource.Error(response.message()))
+
+    override fun getAllUsers(): Flow<PagingData<User>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+            initialLoadSize = INITIAL_PAGE_SIZE),
+            remoteMediator = UsersRemoteMediator(
+                usersDb = userDb,
+                apiService = apiService
+            ),
+            pagingSourceFactory = {
+                userDb.usersDao.pagingSource()
             }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message))
+        ).flow.map { pagingData ->
+            pagingData.map {
+                it.toUser()
+            }
         }
-    }.flowOn(Dispatchers.IO)
+    }
+
+    private companion object {
+        const val PAGE_SIZE = 15
+        const val INITIAL_PAGE_SIZE = 20
+    }
 }

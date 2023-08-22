@@ -20,7 +20,9 @@ import com.kliachenko.gitvoyager.domain.model.User
 import com.kliachenko.ui.theme.ModernGreen
 
 @Composable
-fun UserCard(user: User) {
+fun UserCard(
+    user: User
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,15 +46,31 @@ fun UserCard(user: User) {
             )
             Spacer(modifier = Modifier.width(16.dp))
 
-            Text(
-                text = user.login,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.White
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = user.login,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
+                    )
                 )
-            )
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    text = user.reposUrl,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.Light,
+                        color = Color.White
+                    )
+                )
+            }
         }
     }
 }
